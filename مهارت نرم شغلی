@@ -1,0 +1,33 @@
+    import psutil
+    import time
+    import os
+  
+    THRESHOLD_PERCENT = 80
+    CHECK_INTERVAL = 5
+
+    def clear_console():
+        os.system('cls' if os.name == 'nt' else 'clear')
+  
+    def monitor_memory():
+        print("Memory Monitor Started")
+        try:
+            while True:
+                memory = psutil.virtual_memory()
+                usage = memory.percent
+                available = round(memory.available / (1024 ** 3), 2)  
+                clear_console()
+                print(f"Usage: {usage}%")
+                print(f"Available: {available} GB")
+  
+                if usage > THRESHOLD_PERCENT:
+                    print("Warning: High memory usage")
+                else:
+                    print("Memory usage is normal")
+  
+                time.sleep(CHECK_INTERVAL)
+  
+        except KeyboardInterrupt:
+            print("Stopped")
+
+    if __name__ == "__main__":
+     monitor_memory()
